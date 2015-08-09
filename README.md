@@ -126,3 +126,13 @@ public class MessageController extends Controller {
 }
 
 ```
+
+感谢各位的关注！在开始实践了restful很久后，jfinal-rest我本人并没有真正用起来，原因是我个人想法的转变。jfinal-rest仅作为jfinal在url上定义变量（/uri/{var}）的一种实现方式供参考和学习吧。
+
+建议不要在url上定义变量，理由如下：1.像/tickets/:ticketId/messages/:messageId这样的路径定义，其实ticketId和messageId是重复的，可以做成/ticket/message/:messageId或者/message/messageId；2.路径上定义变量会进一步降低性能，没有实际测试过。
+
+同时，也建议不要定义error状态码，直接把错误详细信息用返回，有些时候，调试错误还要根据状态码去文档中查询其代表的含义。例如：返回{error:40832}，可以设计成{ok:false,msg:"无效的操作"}。设计一堆状态码，还要写相关的参考文档，麻烦了好多。
+
+推荐各位jfinal用户使用官方自带的restful拦截器，或者自己简单处理下，根据请求方法分配到不同的action。目前我自己的项目里用的是jfinal自带的RestfulInterceptor和自己扩展的CORSHandler。
+
+如上所述，仅仅是建议，实际项目开发中，程序设计请根据实际情况自己斟酌。
