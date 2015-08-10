@@ -69,6 +69,10 @@ class RestRoutes {
      * @return new target
      */
     String match(String target, HttpServletRequest request) {
+        if (!target.startsWith(basePath)) {
+            return null;
+        }
+
         String path = target.substring(basePath.length());
 
         for (RestPath restPath : restPathSet) {
