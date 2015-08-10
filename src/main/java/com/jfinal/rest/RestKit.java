@@ -26,33 +26,36 @@ import java.util.List;
  * restful请求工具类，两个功能：创建路由和Handler
  * Created by peak on 2015/1/30.
  */
-public class RestKit {
+public final class RestKit {
 
     private static final List<RestRoutes> routesList = new ArrayList<RestRoutes>();
+
+    private RestKit() {}
 
     /**
      * 创建路由
      *
-     * @param visitPath 访问路径，如/v1，/v2
-     * @param routes    路由，jfinal自带的路由
+     * @param basePath 访问路径，如/v1，/v2
+     * @param routes    路由，jFinal自带的路由
      * @param pack      包名，将会扫描该下带有@Api注解的controller
      */
-    public static void buildRoutes(String visitPath, Routes routes, String pack) {
-        RestRoutes restRoutes = new RestRoutes(visitPath, routes);
+    public static void buildRoutes(String basePath, Routes routes, String pack) {
+        RestRoutes restRoutes = new RestRoutes(basePath, routes);
         //扫描包下的controller
         List<Class<?>> list = ClassScanner.scan(pack);
         for (Class<?> clazz : list) {
             if (!Controller.class.isAssignableFrom(clazz)) {
                 continue;
             }
+
             @SuppressWarnings("unchecked")
             Class<? extends Controller> controllerClass = (Class<? extends Controller>) clazz;
             API api = clazz.getAnnotation(API.class);
             if (api == null) {
                 continue;
             }
-            String restKey = api.value();
-            restRoutes.addRoute(restKey, controllerClass);
+            String restPath = api.value();
+            restRoutes.addRoute(restPath, controllerClass);
         }
         routesList.add(restRoutes);
     }
@@ -60,28 +63,12 @@ public class RestKit {
     /**
      * 构建handler
      *
-     * @param handlers
+     * @param handlers jFinal handler stack
      */
     public static void buildHandler(Handlers handlers) {
         for (RestRoutes routes : routesList) {
             handlers.add(new RestHandler(routes));
         }
-    }
-
-    /**
-     * 切割key里包含的斜杠，去掉末尾的，保留开头的（没有就加上）
-     *
-     * @param key
-     * @return
-     */
-    static String cutSlash(String key) {
-        if (!key.startsWith("/")) {
-            key = "/" + key;
-        }
-        if (key.endsWith("/")) {
-            key = key.substring(0, key.length() - 1);
-        }
-        return key;
     }
 
 }

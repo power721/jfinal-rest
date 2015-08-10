@@ -26,26 +26,39 @@ import javax.servlet.http.HttpServletResponse;
  * restful handler
  * Created by peak on 2015/1/22.
  */
-public class RestHandler extends Handler {
+class RestHandler extends Handler {
+
+    private static final Logger log = Logger.getLogger(RestHandler.class);
+
     /**
      * 访问路径
      */
-    private RestRoutes routes = null;
-    private final Logger log = Logger.getLogger(RestHandler.class);
+    private final RestRoutes routes;
+
+//    private String viewPostfix;
 
     public RestHandler(RestRoutes routes) {
         this.routes = routes;
     }
 
+//    public RestHandler(RestRoutes routes, String viewPostfix) {
+//        if (StrKit.isBlank(viewPostfix) || !viewPostfix.contains(".")) {
+//            throw new IllegalArgumentException("invalid view postfix.");
+//        }
+//        this.routes = routes;
+//        this.viewPostfix = viewPostfix;
+//    }
+
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
-        String visitPath = routes.getVisitPath();
-        if (!target.startsWith(visitPath + "/")) {
+        String basePath = routes.getBasePath();
+        if (!target.startsWith(basePath)) {
             nextHandler.handle(target, request, response, isHandled);
             return;
         }
-        isHandled[0] = true;
+
         String newTarget = routes.match(target, request);
+        log.info(basePath + " " + target + "  " + newTarget);
         if (newTarget == null) {
             if (log.isWarnEnabled()) {
                 String qs = request.getQueryString();
@@ -54,6 +67,12 @@ public class RestHandler extends Handler {
             RenderFactory.me().getErrorRender(404).setContext(request, response).render();
             return;
         }
+
+        isHandled[0] = true;
+//        if (viewPostfix != null) {
+//            newTarget = newTarget.replace(viewPostfix, "");
+//        }
         nextHandler.handle(newTarget, request, response, isHandled);
     }
+
 }

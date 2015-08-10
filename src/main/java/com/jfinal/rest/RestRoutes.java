@@ -28,49 +28,56 @@ import java.util.Set;
  */
 class RestRoutes {
 
-    private String visitPath;
-    private Routes routes;
-    private Set<RestKey> restKeySet = new HashSet<RestKey>();
+    private final String basePath;
+    private final Routes routes;
+    private final Set<RestPath> restPathSet = new HashSet<RestPath>();
 
-    RestRoutes(String visitPath, Routes routes) {
-        this.visitPath = RestKit.cutSlash(visitPath);
+    RestRoutes(String basePath, Routes routes) {
+        if (!basePath.startsWith("/")) {
+            basePath = "/" + basePath;
+        }
+
+        if (!basePath.endsWith("/")) {
+            basePath = basePath + "/";
+        }
+
+        this.basePath = basePath;
         this.routes = routes;
     }
 
-    String getVisitPath() {
-        return visitPath;
+    String getBasePath() {
+        return basePath;
     }
 
-    void addRoute(String restKey, Class<? extends Controller> controllerClass) {
-        restKey = RestKit.cutSlash(restKey);
-
-        RestKey key = new RestKey(restKey);
-        if (restKeySet.contains(key)) {
-            throw new RuntimeException("restKey重复：" + key);
+    void addRoute(String restPath, Class<? extends Controller> controllerClass) {
+        if (restPath.startsWith("/")) {
+            restPath = restPath.substring(1);
         }
-
-        routes.add(visitPath + restKey, controllerClass);
-        restKeySet.add(key);
+        routes.add(basePath + restPath, controllerClass);
+        RestPath path = new RestPath(restPath);
+        if (restPathSet.contains(path)) {
+            throw new RuntimeException("Duplicate restPath：" + path);
+        }
+        restPathSet.add(path);
     }
 
     /**
      * 匹配请求
      *
-     * @param target
-     * @param request
-     * @return
+     * @param target the original url
+     * @param request HttpServletRequest
+     * @return new target
      */
     String match(String target, HttpServletRequest request) {
-        String key = target;
-        if (visitPath != null) {
-            key = key.substring(visitPath.length());
-        }
-        for (RestKey restKey : restKeySet) {
-            String t = restKey.match(key, request);
-            if (t != null) {
-                return visitPath + t;
+        String path = target.substring(basePath.length());
+
+        for (RestPath restPath : restPathSet) {
+            String newRestPath = restPath.match(path, request);
+            if (newRestPath != null) {
+                return basePath + newRestPath;
             }
         }
         return null;
     }
+
 }
