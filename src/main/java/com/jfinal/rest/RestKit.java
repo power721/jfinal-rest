@@ -28,9 +28,10 @@ import java.util.List;
  */
 public final class RestKit {
 
-    private static final List<RestRoutes> routesList = new ArrayList<RestRoutes>();
+    private static List<RestRoutes> routesList = new ArrayList<RestRoutes>();
 
-    private RestKit() {}
+    private RestKit() {
+    }
 
     /**
      * 创建路由

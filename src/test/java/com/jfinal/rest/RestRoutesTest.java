@@ -23,7 +23,7 @@ public class RestRoutesTest {
         routes = new Routes() {
             @Override
             public void config() {
-
+                // empty
             }
         };
 

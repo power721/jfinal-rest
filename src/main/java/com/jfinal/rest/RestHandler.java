@@ -28,7 +28,7 @@ import javax.servlet.http.HttpServletResponse;
  */
 class RestHandler extends Handler {
 
-    private static final Logger log = Logger.getLogger(RestHandler.class);
+    private static final Logger LOGGER = Logger.getLogger(RestHandler.class);
 
     /**
      * 访问路径
@@ -58,11 +58,11 @@ class RestHandler extends Handler {
         }
 
         String newTarget = routes.match(target, request);
-        log.info(basePath + " " + target + "  " + newTarget);
+        LOGGER.info(basePath + " " + target + "  " + newTarget);
         if (newTarget == null) {
-            if (log.isWarnEnabled()) {
+            if (LOGGER.isWarnEnabled()) {
                 String qs = request.getQueryString();
-                log.warn("404 Action Not Found: " + (qs == null ? target : target + "?" + qs));
+                LOGGER.warn("404 Action Not Found: " + (qs == null ? target : target + "?" + qs));
             }
             RenderFactory.me().getErrorRender(404).setContext(request, response).render();
             return;

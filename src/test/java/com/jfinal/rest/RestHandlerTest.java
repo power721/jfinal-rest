@@ -32,7 +32,7 @@ public class RestHandlerTest {
         routes = new Routes() {
             @Override
             public void config() {
-
+                // empty
             }
         };
 
@@ -91,7 +91,7 @@ public class RestHandlerTest {
         EasyMock.expect(renderFactory.getErrorRender(404)).andReturn(new Render() {
             @Override
             public void render() {
-
+                // empty
             }
         });
         PowerMock.mockStatic(RenderFactory.class, RenderFactory.class.getMethod("me"));

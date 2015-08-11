@@ -26,12 +26,12 @@ import java.util.List;
  */
 final class ClassScanner {
 
-    private static final ClassLoader classLoader;
-    private static final String classPath;
+    private static final ClassLoader CLASS_LOADER;
+    private static final String CLASS_PATH;
 
     static {
-        classLoader = ClassScanner.class.getClassLoader();
-        classPath = classLoader.getResource("").getPath();
+        CLASS_LOADER = ClassScanner.class.getClassLoader();
+        CLASS_PATH = CLASS_LOADER.getResource("").getPath();
     }
 
     private ClassScanner() {
@@ -43,12 +43,11 @@ final class ClassScanner {
      * @param pack 包名
      * @return list of restful classes
      */
-    @SuppressWarnings("unchecked")
     public static List<Class<?>> scan(String pack) {
-        String path = classPath + pack.replace(".", "/");
+        String path = CLASS_PATH + pack.replace(".", "/");
         File dir = new File(path);
         if (!dir.isDirectory()) {
-            return Collections.EMPTY_LIST;
+            return Collections.emptyList();
         }
 
         try {
@@ -73,7 +72,7 @@ final class ClassScanner {
                 }
 
                 //去掉classPath
-                String className = filePath.substring(classPath.length());
+                String className = filePath.substring(CLASS_PATH.length());
                 if (className.startsWith(File.separator)) {
                     className = className.substring(1);
                 }
@@ -81,7 +80,7 @@ final class ClassScanner {
                 //去掉.class
                 className = className.substring(0, className.length() - ".class".length());
                 className = className.replace(File.separator, ".");
-                list.add(classLoader.loadClass(className));
+                list.add(CLASS_LOADER.loadClass(className));
             } else if (file.isDirectory()) {
                 list.addAll(scan(file));
             }

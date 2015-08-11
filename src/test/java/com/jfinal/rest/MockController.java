@@ -14,12 +14,12 @@ public class MockController extends Controller {
         setAttr("method", "get");
         setAttr("q", getPara("q"));
         if (StrKit.isBlank(messageId)) {
-            setAttr("error", 0);
             setAttr("data", Arrays.asList(1, 2, 3));
+            setAttr("error", 0);
             return;
         }
-        setAttr("error", 0);
         setAttr("data", ticketId);
+        setAttr("error", 0);
     }
 
     public void post() {
@@ -32,20 +32,22 @@ public class MockController extends Controller {
     public void patch() {
         String messageId = getPara();
         setAttr("method", "patch");
+        setAttr("messageId", messageId);
         setAttr("error", 0);
     }
 
     public void put() {
         int messageId = getParaToInt();
         setAttr("method", "put");
+        setAttr("messageId", messageId);
         setAttr("error", 0);
     }
 
     public void delete() {
         String messageId = getPara();
-        setAttr("error", 0);
         setAttr("method", "delete");
         setAttr("messageId", messageId);
+        setAttr("error", 0);
     }
 
 }
