@@ -28,7 +28,7 @@ import java.util.List;
  */
 public final class RestKit {
 
-    private static List<RestRoutes> routesList = new ArrayList<RestRoutes>();
+    private static final List<RestRoutes> ROUTES = new ArrayList<RestRoutes>();
 
     private RestKit() {
     }
@@ -37,8 +37,8 @@ public final class RestKit {
      * 创建路由
      *
      * @param basePath 访问路径，如/v1，/v2
-     * @param routes    路由，jFinal自带的路由
-     * @param pack      包名，将会扫描该下带有@Api注解的controller
+     * @param routes   路由，jFinal自带的路由
+     * @param pack     包名，将会扫描该下带有@Api注解的controller
      */
     public static void buildRoutes(String basePath, Routes routes, String pack) {
         RestRoutes restRoutes = new RestRoutes(basePath, routes);
@@ -58,7 +58,7 @@ public final class RestKit {
             String restPath = api.value();
             restRoutes.addRoute(restPath, controllerClass);
         }
-        routesList.add(restRoutes);
+        ROUTES.add(restRoutes);
     }
 
     /**
@@ -67,7 +67,7 @@ public final class RestKit {
      * @param handlers jFinal handler stack
      */
     public static void buildHandler(Handlers handlers) {
-        for (RestRoutes routes : routesList) {
+        for (RestRoutes routes : ROUTES) {
             handlers.add(new RestHandler(routes));
         }
     }

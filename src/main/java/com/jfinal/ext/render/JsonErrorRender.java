@@ -8,6 +8,7 @@ import java.util.Map;
 public class JsonErrorRender extends JsonRender {
 
     private static final Map<Integer, String> ERROR_CODES = new HashMap<Integer, String>();
+
     static {
         ERROR_CODES.put(400, "Bad Request");
         ERROR_CODES.put(401, "Unauthorized");
@@ -20,7 +21,7 @@ public class JsonErrorRender extends JsonRender {
         ERROR_CODES.put(503, "Service Unavailable");
     }
 
-    protected int errorCode;
+    private final int errorCode;
 
     public JsonErrorRender(int errorCode) {
         super();

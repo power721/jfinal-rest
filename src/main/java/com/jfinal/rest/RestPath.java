@@ -24,6 +24,7 @@ import java.util.Map;
 /**
  * rest path or action key for jFinal
  * Created by peak on 2015/1/23.
+ * refactored by power721
  */
 class RestPath {
     private final String originPath;
@@ -52,7 +53,7 @@ class RestPath {
     /**
      * 匹配
      *
-     * @param target the original target
+     * @param target  the original target
      * @param request http request
      * @return new path if validate; otherwise, null for 404
      */
