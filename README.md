@@ -134,7 +134,7 @@ public class MessageController extends Controller {
     @API(":messageId")
     // equals @API("/tickets/:ticketId/messages/:messageId")
     public void status() {
-        // GET /v0/tickets/1/messages/5/status
+        // GET /v1/tickets/1/messages/5/status
         String para = getPara();
 
         setAttr("data", para);
