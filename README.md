@@ -2,6 +2,7 @@
 jfinal-rest是jfinal的轻量级RESTful扩展，使用非常方便，看了DEMO就可以用了。
 
 2015-8-15: add annotations to indicates that the annotated method responds to requests by HTTP method type. power721
+2015-8-15: support API annotation in method level. power721
 
 Config示例代码：
 
@@ -59,7 +60,7 @@ public class MessageController extends Controller {
     /**
      * 获取单个数据或者列表
      */
-     @GET
+    @GET
     public void index() {
         //路径里定义的参数变量，需要通过getAttr()方法获取
         String ticketId = getAttr("ticketId");
@@ -82,7 +83,7 @@ public class MessageController extends Controller {
     /**
      * 添加新数据
      */
-     @POST
+    @POST
     public void create() {
         //POST /v1/tickets/xxxx/messages
         String ticketId = getAttr("ticketId");
@@ -108,7 +109,7 @@ public class MessageController extends Controller {
     /**
      * 数据整体更新
      */
-     @PUT
+    @PUT
     public void update() {
         //PUT /v1/tickets/xxxx/messages/xxxxx
         int messageId = getParaToInt();
@@ -121,7 +122,7 @@ public class MessageController extends Controller {
     /**
      * 删除数据
      */
-     @DELETE
+    @DELETE
     public void remove() {
         //DELETE /v1/tickets/xxxx/messages/xxxxx
         String messageId = getPara();
@@ -131,6 +132,7 @@ public class MessageController extends Controller {
     }
 
     @API(":messageId")
+    // equals @API("/tickets/:ticketId/messages/:messageId")
     public void status() {
         // GET /v0/tickets/1/messages/5/status
         String para = getPara();
