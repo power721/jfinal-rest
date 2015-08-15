@@ -37,6 +37,11 @@ class RestHandler extends Handler {
 
 //    private String viewPostfix;
 
+    /**
+     * construct RestHandler with the RestRoutes
+     *
+     * @param routes the rest routes
+     */
     public RestHandler(RestRoutes routes) {
         this.routes = routes;
     }

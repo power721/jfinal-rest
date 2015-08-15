@@ -17,7 +17,6 @@ import static org.junit.Assert.assertTrue;
 
 public class RestKitTest {
 
-    private HttpServletRequest request;
     private Routes routes;
 
     @Before
@@ -29,7 +28,7 @@ public class RestKitTest {
             }
         };
 
-        request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
+        HttpServletRequest request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
         EasyMock.expect(request.getMethod()).andReturn("GET").anyTimes();
     }
 
@@ -37,7 +36,7 @@ public class RestKitTest {
     public void testBuildRoutes() throws Exception {
         RestKit.buildRoutes("v1", routes, "com.jfinal.rest");
 
-        assertEquals(1, routes.getEntrySet().size());
+        assertEquals(2, routes.getEntrySet().size());
         Map.Entry<String, Class<? extends Controller>> entry = new ArrayList<Map.Entry<String, Class<? extends Controller>>>(routes.getEntrySet()).get(0);
         assertEquals("/v1/tickets/:ticketId/messages", entry.getKey());
         assertEquals(MockController.class, entry.getValue());

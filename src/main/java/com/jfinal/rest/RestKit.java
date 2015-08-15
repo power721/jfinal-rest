@@ -19,6 +19,8 @@ import com.jfinal.config.Handlers;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
 
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -38,12 +40,12 @@ public final class RestKit {
      *
      * @param basePath 访问路径，如/v1，/v2
      * @param routes   路由，jFinal自带的路由
-     * @param pack     包名，将会扫描该下带有@Api注解的controller
+     * @param packages 包名，将会扫描该下带有@Api注解的controller
      */
-    public static void buildRoutes(String basePath, Routes routes, String pack) {
+    public static void buildRoutes(String basePath, Routes routes, String... packages) {
         RestRoutes restRoutes = new RestRoutes(basePath, routes);
         //扫描包下的controller
-        List<Class<?>> list = ClassScanner.scan(pack);
+        List<Class<?>> list = ClassScanner.scan(packages);
         for (Class<?> clazz : list) {
             if (!Controller.class.isAssignableFrom(clazz)) {
                 continue;
@@ -52,11 +54,26 @@ public final class RestKit {
             @SuppressWarnings("unchecked")
             Class<? extends Controller> controllerClass = (Class<? extends Controller>) clazz;
             API api = clazz.getAnnotation(API.class);
-            if (api == null) {
-                continue;
+            String classRestPath = "";
+            if (api != null) {
+                classRestPath = api.value();
+                restRoutes.addRoute(classRestPath, controllerClass);
             }
-            String restPath = api.value();
-            restRoutes.addRoute(restPath, controllerClass);
+
+            for (Method method : clazz.getDeclaredMethods()) {
+                if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
+                    continue;
+                }
+
+                api = method.getAnnotation(API.class);
+                if (api != null) {
+                    String restPath = api.value();
+                    if (!restPath.startsWith("/")) {
+                        restPath = classRestPath + "/" + restPath;
+                    }
+                    restRoutes.addRoute(restPath, controllerClass);
+                }
+            }
         }
         ROUTES.add(restRoutes);
     }

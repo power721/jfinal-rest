@@ -26,7 +26,7 @@ import java.lang.annotation.Target;
  * Created by peak on 2015/2/9.
  */
 @Retention(RetentionPolicy.RUNTIME)
-@Target(ElementType.TYPE)
+@Target({ElementType.TYPE, ElementType.METHOD})
 @Documented
 public @interface API {
     String value();
