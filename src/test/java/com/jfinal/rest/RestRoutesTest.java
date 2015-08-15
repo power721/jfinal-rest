@@ -16,8 +16,8 @@ import static org.junit.Assert.assertNull;
 @RunWith(PowerMockRunner.class)
 public class RestRoutesTest {
 
-    HttpServletRequest request;
-    Routes routes;
+    private HttpServletRequest request;
+    private Routes routes;
 
     @Before
     public void setUp() {

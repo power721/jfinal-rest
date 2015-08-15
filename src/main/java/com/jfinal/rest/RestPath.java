@@ -163,7 +163,7 @@ class RestPath {
             }
 
             // index is the default method in the jFinal controller
-            String methodName = method.getName().equals("index") ? "" : method.getName();
+            String methodName = "index".equals(method.getName()) ? "" : method.getName();
 
             GET get = method.getAnnotation(GET.class);
             if (get != null) {

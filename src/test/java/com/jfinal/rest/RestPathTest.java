@@ -16,7 +16,7 @@ import static org.junit.Assert.assertNull;
 @RunWith(PowerMockRunner.class)
 public class RestPathTest {
 
-    HttpServletRequest request;
+    private HttpServletRequest request;
 
     @Before
     public void setUp() {
@@ -38,9 +38,9 @@ public class RestPathTest {
     public void testWithPara() {
         PowerMock.replayAll();
         RestPath path = new RestPath("/tickets/:ticketId/messages");
-        String newPath = path.match("/tickets/1/messages/2", request);
+        String newPath = path.match("/tickets/1/messages/2?q=1", request);
 
-        assertEquals("/tickets/:ticketId/messages/get/2", newPath);
+        assertEquals("/tickets/:ticketId/messages/get/2?q=1", newPath);
         PowerMock.verifyAll();
     }
 

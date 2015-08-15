@@ -40,21 +40,27 @@ final class ClassScanner {
     /**
      * 扫描包
      *
-     * @param pack 包名
+     * @param packages 包名
      * @return list of restful classes
      */
-    public static List<Class<?>> scan(String pack) {
-        String path = CLASS_PATH + pack.replace(".", "/");
-        File dir = new File(path);
-        if (!dir.isDirectory()) {
-            return Collections.emptyList();
+    public static List<Class<?>> scan(String... packages) {
+        List<Class<?>> result = new ArrayList<Class<?>>();
+
+        for (String pack : packages) {
+            String path = CLASS_PATH + pack.replace(".", "/");
+            File dir = new File(path);
+            if (!dir.isDirectory()) {
+                return Collections.emptyList();
+            }
+
+            try {
+                result.addAll(scan(dir));
+            } catch (ClassNotFoundException e) {
+                throw new RuntimeException(e);
+            }
         }
 
-        try {
-            return scan(dir);
-        } catch (ClassNotFoundException e) {
-            throw new RuntimeException(e);
-        }
+        return result;
     }
 
     private static List<Class<?>> scan(File dir) throws ClassNotFoundException {

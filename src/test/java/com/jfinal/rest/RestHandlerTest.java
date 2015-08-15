@@ -22,10 +22,10 @@ import static org.junit.Assert.assertEquals;
 @PrepareForTest({RenderFactory.class})
 public class RestHandlerTest {
 
-    HttpServletRequest request;
-    HttpServletResponse response;
-    Routes routes;
-    RestRoutes restRoutes;
+    private HttpServletRequest request;
+    private HttpServletResponse response;
+    private Routes routes;
+    private RestRoutes restRoutes;
 
     @Before
     public void setUp() {

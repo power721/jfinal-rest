@@ -17,8 +17,8 @@ import static org.junit.Assert.assertTrue;
 
 public class RestKitTest {
 
-    HttpServletRequest request;
-    Routes routes;
+    private HttpServletRequest request;
+    private Routes routes;
 
     @Before
     public void setUp() {
