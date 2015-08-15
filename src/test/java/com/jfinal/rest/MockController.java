@@ -63,4 +63,10 @@ public class MockController extends Controller {
         setAttr("status", true);
     }
 
+    @API(":messageId")
+    @POST
+    public void createStatus() {
+        setAttr("created", true);
+    }
+
 }

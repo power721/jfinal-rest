@@ -19,7 +19,9 @@ import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
 
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
 import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 
 /**
@@ -49,16 +51,20 @@ class RestRoutes {
         return basePath;
     }
 
-    void addRoute(String restPath, Class<? extends Controller> controllerClass) {
+    void addRoute(String restPath, Class<? extends Controller> controllerClass, List<Method> methods) {
         if (restPath.startsWith("/")) {
             restPath = restPath.substring(1);
         }
         routes.add(basePath + restPath, controllerClass);
-        RestPath path = new RestPath(restPath, controllerClass);
+        RestPath path = new RestPath(restPath, controllerClass, methods);
         if (restPathSet.contains(path)) {
             throw new RuntimeException("Duplicate restPath：" + path);
         }
         restPathSet.add(path);
+    }
+
+    void addRoute(String restPath, Class<? extends Controller> controllerClass) {
+        addRoute(restPath, controllerClass, null);
     }
 
     /**

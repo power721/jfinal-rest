@@ -22,7 +22,9 @@ import com.jfinal.core.Controller;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 /**
  * restful请求工具类，两个功能：创建路由和Handler
@@ -60,6 +62,7 @@ public final class RestKit {
                 restRoutes.addRoute(classRestPath, controllerClass);
             }
 
+            Map<String, List<Method>> methodMap = new HashMap<String, List<Method>>();
             for (Method method : clazz.getDeclaredMethods()) {
                 if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
                     continue;
@@ -71,8 +74,18 @@ public final class RestKit {
                     if (!restPath.startsWith("/")) {
                         restPath = classRestPath + "/" + restPath;
                     }
-                    restRoutes.addRoute(restPath, controllerClass);
+
+                    List<Method> methods = methodMap.get(restPath);
+                    if (methods == null) {
+                        methods = new ArrayList<Method>();
+                        methodMap.put(restPath, methods);
+                    }
+                    methods.add(method);
                 }
+            }
+
+            for (Map.Entry<String, List<Method>> entry : methodMap.entrySet()) {
+                restRoutes.addRoute(entry.getKey(), controllerClass, entry.getValue());
             }
         }
         ROUTES.add(restRoutes);

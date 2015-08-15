@@ -2,6 +2,7 @@
 jfinal-rest是jfinal的轻量级RESTful扩展，使用非常方便，看了DEMO就可以用了。
 
 2015-8-15: add annotations to indicates that the annotated method responds to requests by HTTP method type. power721
+
 2015-8-15: support API annotation in method level. power721
 
 Config示例代码：
@@ -24,6 +25,12 @@ public class Config extends JFinalConfig {
             }
         });
 
+        me.setErrorRenderFactory(new IErrorRenderFactory() {
+            @Override
+            public Render getRender(int errorCode, String view) {
+                return new JsonErrorRender(errorCode);
+            }
+        });
     }
 
     @Override
@@ -135,10 +142,16 @@ public class MessageController extends Controller {
     // equals @API("/tickets/:ticketId/messages/:messageId")
     public void status() {
         // GET /v1/tickets/1/messages/5/status
-        String para = getPara();
+        String ticketId = getAttr("ticketId");  // 1
+        String messageId = getAttr("messageId");  // 5
 
-        setAttr("data", para);
         setAttr("status", true);
+    }
+
+    @API(":messageId")
+    @POST
+    public void createStatus() {
+        setAttr("created", true);
     }
 
 }

@@ -31,11 +31,13 @@ import java.util.Map;
  * refactored by power721
  */
 class RestPath {
+    private final boolean isClassLevel;
     private final String originPath;
     private final Map<String, String> methodMap;
     private final List<Segment> segments;
 
-    RestPath(String originPath, Class<? extends Controller> controllerClass) {
+    RestPath(String originPath, Class<? extends Controller> controllerClass, List<Method> methods) {
+        this.isClassLevel = (methods == null);
         this.originPath = originPath;
         if (originPath.startsWith("/")) {
             originPath = originPath.substring(1);
@@ -55,11 +57,15 @@ class RestPath {
         }
 
         methodMap = new HashMap<String, String>();
-        buildMethodMap(controllerClass);
+        if (methods == null) {
+            buildMethodMap(controllerClass);
+        } else {
+            buildMethodMap(methods);
+        }
     }
 
     RestPath(String originPath) {
-        this(originPath, null);
+        this(originPath, null, null);
     }
 
     /**
@@ -113,7 +119,7 @@ class RestPath {
             newPath = originPath + "/" + method;
         }
 
-        if (para != null) {
+        if (para != null && isClassLevel) {
             return newPath + "/" + para;
         } else {
             return newPath;
@@ -162,6 +168,11 @@ class RestPath {
                 continue;
             }
 
+            API api = method.getAnnotation(API.class);
+            if (api != null) {
+                continue;
+            }
+
             // index is the default method in the jFinal controller
             String methodName = "index".equals(method.getName()) ? "" : method.getName();
 
@@ -206,6 +217,42 @@ class RestPath {
         }
     }
 
+    private void buildMethodMap(List<Method> methods) {
+        for (Method method : methods) {
+            String methodName = "index".equals(method.getName()) ? "" : method.getName();
+            GET get = method.getAnnotation(GET.class);
+            if (get != null) {
+                methodMap.put("get", methodName);
+                continue;
+            }
+
+            PUT put = method.getAnnotation(PUT.class);
+            if (put != null) {
+                methodMap.put("put", methodName);
+                continue;
+            }
+
+            POST post = method.getAnnotation(POST.class);
+            if (post != null) {
+                methodMap.put("post", methodName);
+                continue;
+            }
+
+            PATCH patch = method.getAnnotation(PATCH.class);
+            if (patch != null) {
+                methodMap.put("patch", methodName);
+                continue;
+            }
+
+            DELETE delete = method.getAnnotation(DELETE.class);
+            if (delete != null) {
+                methodMap.put("delete", methodName);
+                continue;
+            }
+
+            methodMap.put("get", methodName);
+        }
+    }
 
     private static class Segment {
         boolean isVariable;

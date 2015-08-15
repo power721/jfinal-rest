@@ -182,6 +182,28 @@ public class RestHandlerTest {
     }
 
     @Test
+    public void testApiPathInMethodWithPostAnnotation() {
+        request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
+        EasyMock.expect(request.getMethod()).andReturn("POST");
+
+        final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/createStatus";
+        Handler nextHandler = new Handler() {
+            @Override
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+                assertEquals(newTarget, target);
+            }
+        };
+
+        PowerMock.replayAll();
+
+        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+
+        restHandler.handle("/v1/tickets/1/messages/2/status", request, response, new boolean[]{false});
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
     public void testNotMatchBasePath() {
         final String newTarget = "/v2/tickets/1/messages/";
         Handler nextHandler = new Handler() {
