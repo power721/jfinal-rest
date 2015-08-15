@@ -54,7 +54,7 @@ class RestRoutes {
             restPath = restPath.substring(1);
         }
         routes.add(basePath + restPath, controllerClass);
-        RestPath path = new RestPath(restPath);
+        RestPath path = new RestPath(restPath, controllerClass);
         if (restPathSet.contains(path)) {
             throw new RuntimeException("Duplicate restPath：" + path);
         }

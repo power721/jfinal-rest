@@ -15,7 +15,11 @@
  */
 package com.jfinal.rest;
 
+import com.jfinal.core.Controller;
+
 import javax.servlet.http.HttpServletRequest;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -28,9 +32,10 @@ import java.util.Map;
  */
 class RestPath {
     private final String originPath;
+    private final Map<String, String> methodMap;
     private final List<Segment> segments;
 
-    RestPath(String originPath) {
+    RestPath(String originPath, Class<? extends Controller> controllerClass) {
         this.originPath = originPath;
         if (originPath.startsWith("/")) {
             originPath = originPath.substring(1);
@@ -48,6 +53,13 @@ class RestPath {
             }
             segments.add(segment);
         }
+
+        methodMap = new HashMap<String, String>();
+        buildMethodMap(controllerClass);
+    }
+
+    RestPath(String originPath) {
+        this(originPath, null);
     }
 
     /**
@@ -92,13 +104,20 @@ class RestPath {
         }
 
         //根据请求方法生成新的路径
-        String method = request.getMethod().toLowerCase();
-        String newPath = originPath + "/" + method;
-        if (para != null) {
-            newPath = newPath + "/" + para;
+        String httpMethod = request.getMethod().toLowerCase();
+        String method = methodMap.get(httpMethod) != null ? methodMap.get(httpMethod) : httpMethod;
+        String newPath;
+        if (method.isEmpty()) {
+            newPath = originPath;
+        } else {
+            newPath = originPath + "/" + method;
         }
 
-        return newPath;
+        if (para != null) {
+            return newPath + "/" + para;
+        } else {
+            return newPath;
+        }
     }
 
     @Override
@@ -131,6 +150,60 @@ class RestPath {
             hash = hash * 13 + segment.hashCode();
         }
         return hash;
+    }
+
+    private void buildMethodMap(Class<? extends Controller> controllerClass) {
+        if (controllerClass == null) {
+            return;
+        }
+
+        for (Method method : controllerClass.getDeclaredMethods()) {
+            if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
+                continue;
+            }
+
+            // index is the default method in the jFinal controller
+            String methodName = method.getName().equals("index") ? "" : method.getName();
+
+            GET get = method.getAnnotation(GET.class);
+            if (get != null) {
+                if (methodMap.put("get", methodName) != null) {
+                    throw new RuntimeException("Duplicate GET request method in " + controllerClass.getName());
+                }
+                continue;
+            }
+
+            PUT put = method.getAnnotation(PUT.class);
+            if (put != null) {
+                if (methodMap.put("put", methodName) != null) {
+                    throw new RuntimeException("Duplicate PUT request method in " + controllerClass.getName());
+                }
+                continue;
+            }
+
+            POST post = method.getAnnotation(POST.class);
+            if (post != null) {
+                if (methodMap.put("post", methodName) != null) {
+                    throw new RuntimeException("Duplicate POST request method in " + controllerClass.getName());
+                }
+                continue;
+            }
+
+            PATCH patch = method.getAnnotation(PATCH.class);
+            if (patch != null) {
+                if (methodMap.put("patch", methodName) != null) {
+                    throw new RuntimeException("Duplicate PATCH request method in " + controllerClass.getName());
+                }
+                continue;
+            }
+
+            DELETE delete = method.getAnnotation(DELETE.class);
+            if (delete != null) {
+                if (methodMap.put("delete", methodName) != null) {
+                    throw new RuntimeException("Duplicate DELETE request method in " + controllerClass.getName());
+                }
+            }
+        }
     }
 
 

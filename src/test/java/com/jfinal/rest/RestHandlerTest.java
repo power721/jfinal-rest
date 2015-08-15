@@ -47,7 +47,99 @@ public class RestHandlerTest {
 
     @Test
     public void test() {
-        final String newTarget = "/v1/tickets/:ticketId/messages/get";
+        final String newTarget = "/v1/tickets/:ticketId/messages";
+        Handler nextHandler = new Handler() {
+            @Override
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+                assertEquals(newTarget, target);
+            }
+        };
+
+        PowerMock.replayAll();
+
+        RestHandler restHandler = new RestHandler(restRoutes);
+        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void testPost() {
+        request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
+        EasyMock.expect(request.getMethod()).andReturn("POST").anyTimes();
+
+        final String newTarget = "/v1/tickets/:ticketId/messages/create";
+        Handler nextHandler = new Handler() {
+            @Override
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+                assertEquals(newTarget, target);
+            }
+        };
+
+        PowerMock.replayAll();
+
+        RestHandler restHandler = new RestHandler(restRoutes);
+        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void testPut() {
+        request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
+        EasyMock.expect(request.getMethod()).andReturn("PUT").anyTimes();
+
+        final String newTarget = "/v1/tickets/:ticketId/messages/update";
+        Handler nextHandler = new Handler() {
+            @Override
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+                assertEquals(newTarget, target);
+            }
+        };
+
+        PowerMock.replayAll();
+
+        RestHandler restHandler = new RestHandler(restRoutes);
+        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void testPatch() {
+        request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
+        EasyMock.expect(request.getMethod()).andReturn("PATCH").anyTimes();
+
+        final String newTarget = "/v1/tickets/:ticketId/messages/patch";
+        Handler nextHandler = new Handler() {
+            @Override
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+                assertEquals(newTarget, target);
+            }
+        };
+
+        PowerMock.replayAll();
+
+        RestHandler restHandler = new RestHandler(restRoutes);
+        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+
+        PowerMock.verifyAll();
+    }
+
+    @Test
+    public void testDelete() {
+        request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
+        EasyMock.expect(request.getMethod()).andReturn("DELETE").anyTimes();
+
+        final String newTarget = "/v1/tickets/:ticketId/messages/remove";
         Handler nextHandler = new Handler() {
             @Override
             public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {

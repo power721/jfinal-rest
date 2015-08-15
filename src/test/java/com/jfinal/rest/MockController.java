@@ -5,10 +5,12 @@ import com.jfinal.kit.StrKit;
 
 import java.util.Arrays;
 
+
 @API("/tickets/:ticketId/messages")
 public class MockController extends Controller {
 
-    public void get() {
+    @GET
+    public void index() {
         String ticketId = getAttr("ticketId");
         String messageId = getPara();
         setAttr("method", "get");
@@ -22,7 +24,8 @@ public class MockController extends Controller {
         setAttr("error", 0);
     }
 
-    public void post() {
+    @POST
+    public void create() {
         String ticketId = getAttr("ticketId");
         setAttr("method", "post");
         setAttr("error", 0);
@@ -36,14 +39,16 @@ public class MockController extends Controller {
         setAttr("error", 0);
     }
 
-    public void put() {
+    @PUT
+    public void update() {
         int messageId = getParaToInt();
         setAttr("method", "put");
         setAttr("messageId", messageId);
         setAttr("error", 0);
     }
 
-    public void delete() {
+    @DELETE
+    public void remove() {
         String messageId = getPara();
         setAttr("method", "delete");
         setAttr("messageId", messageId);

@@ -40,7 +40,7 @@ public class RestRoutesTest {
         restRoutes.addRoute("/tickets/:ticketId/messages", MockController.class);
         String newPath = restRoutes.match("/v1/tickets/1/messages/", request);
 
-        assertEquals("/v1/tickets/:ticketId/messages/get", newPath);
+        assertEquals("/v1/tickets/:ticketId/messages", newPath);
     }
 
     @Test
@@ -51,7 +51,7 @@ public class RestRoutesTest {
         restRoutes.addRoute("/tickets/:ticketId/messages", MockController.class);
         String newPath = restRoutes.match("/v1/tickets/1/messages/", request);
 
-        assertEquals("/v1/tickets/:ticketId/messages/get", newPath);
+        assertEquals("/v1/tickets/:ticketId/messages", newPath);
     }
 
     @Test

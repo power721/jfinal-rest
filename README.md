@@ -1,6 +1,8 @@
 #jfinal-rest
 jfinal-rest是jfinal的轻量级RESTful扩展，使用非常方便，看了DEMO就可以用了。
 
+2015-8-15: add annotations to indicates that the annotated method responds to requests by HTTP method type. power721
+
 Config示例代码：
 
 ```java
@@ -57,7 +59,8 @@ public class MessageController extends Controller {
     /**
      * 获取单个数据或者列表
      */
-    public void get() {
+     @GET
+    public void index() {
         //路径里定义的参数变量，需要通过getAttr()方法获取
         String ticketId = getAttr("ticketId");
         String messageId = getPara();
@@ -79,7 +82,8 @@ public class MessageController extends Controller {
     /**
      * 添加新数据
      */
-    public void post() {
+     @POST
+    public void create() {
         //POST /v1/tickets/xxxx/messages
         String ticketId = getAttr("ticketId");
         Message message = getModel(Message.class);
@@ -104,7 +108,8 @@ public class MessageController extends Controller {
     /**
      * 数据整体更新
      */
-    public void put() {
+     @PUT
+    public void update() {
         //PUT /v1/tickets/xxxx/messages/xxxxx
         int messageId = getParaToInt();
         Message message = getModel(Message.class);
@@ -116,7 +121,8 @@ public class MessageController extends Controller {
     /**
      * 删除数据
      */
-    public void delete() {
+     @DELETE
+    public void remove() {
         //DELETE /v1/tickets/xxxx/messages/xxxxx
         String messageId = getPara();
         Message message = Message.dao.findById(messageId);
