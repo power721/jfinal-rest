@@ -129,6 +129,16 @@ public class MessageController extends Controller {
         message.delete();
         setAttr("error", 0);
     }
+
+    @API(":messageId")
+    public void status() {
+        // GET /v0/tickets/1/messages/5/status
+        String para = getPara();
+
+        setAttr("data", para);
+        setAttr("status", true);
+    }
+
 }
 
 ```

@@ -57,12 +57,8 @@ public class MockController extends Controller {
 
     @API(":messageId")
     public void status() {
-        String ticketId = getAttr("ticketId");
-        String messageId = getAttr("messageId");
         String para = getPara();
 
-        setAttr("id", ticketId);
-        setAttr("messageId", messageId);
         setAttr("data", para);
         setAttr("status", true);
     }
