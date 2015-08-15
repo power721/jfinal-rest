@@ -55,7 +55,8 @@ public class MockController extends Controller {
         setAttr("error", 0);
     }
 
-    @API(":messageId")
+    @API(":messageId/status")
+    @GET
     public void status() {
         String para = getPara();
 
@@ -63,10 +64,28 @@ public class MockController extends Controller {
         setAttr("status", true);
     }
 
-    @API(":messageId")
+    @API(":messageId/status")
     @POST
     public void createStatus() {
         setAttr("created", true);
+    }
+
+    @API(":messageId/status")
+    @PUT
+    public void updateStatus() {
+        setAttr("updated", true);
+    }
+
+    @API(":messageId/status")
+    @PATCH
+    public void patchStatus() {
+        setAttr("updated", true);
+    }
+
+    @API(":messageId/status")
+    @DELETE
+    public void removeStatus() {
+        setAttr("deleted", true);
     }
 
 }

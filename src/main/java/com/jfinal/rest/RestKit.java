@@ -29,6 +29,7 @@ import java.util.Map;
 /**
  * restful请求工具类，两个功能：创建路由和Handler
  * Created by peak on 2015/1/30.
+ * refactored by power721
  */
 public final class RestKit {
 
@@ -62,33 +63,37 @@ public final class RestKit {
                 restRoutes.addRoute(classRestPath, controllerClass);
             }
 
-            Map<String, List<Method>> methodMap = new HashMap<String, List<Method>>();
-            for (Method method : clazz.getDeclaredMethods()) {
-                if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
-                    continue;
-                }
-
-                api = method.getAnnotation(API.class);
-                if (api != null) {
-                    String restPath = api.value();
-                    if (!restPath.startsWith("/")) {
-                        restPath = classRestPath + "/" + restPath;
-                    }
-
-                    List<Method> methods = methodMap.get(restPath);
-                    if (methods == null) {
-                        methods = new ArrayList<Method>();
-                        methodMap.put(restPath, methods);
-                    }
-                    methods.add(method);
-                }
-            }
-
-            for (Map.Entry<String, List<Method>> entry : methodMap.entrySet()) {
+            for (Map.Entry<String, List<Method>> entry : buildMethodLevelAPIs(classRestPath, clazz).entrySet()) {
                 restRoutes.addRoute(entry.getKey(), controllerClass, entry.getValue());
             }
         }
         ROUTES.add(restRoutes);
+    }
+
+    private static Map<String, List<Method>> buildMethodLevelAPIs(String classRestPath, Class<?> clazz) {
+        Map<String, List<Method>> methodMap = new HashMap<String, List<Method>>();
+        for (Method method : clazz.getDeclaredMethods()) {
+            if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
+                continue;
+            }
+
+            API api = method.getAnnotation(API.class);
+            if (api != null) {
+                String restPath = api.value();
+                if (!restPath.startsWith("/")) {
+                    restPath = classRestPath + "/" + restPath;
+                }
+
+                List<Method> methods = methodMap.get(restPath);
+                if (methods == null) {
+                    methods = new ArrayList<Method>();
+                    methodMap.put(restPath, methods);
+                }
+                methods.add(method);
+            }
+        }
+
+        return methodMap;
     }
 
     /**

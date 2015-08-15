@@ -57,7 +57,7 @@ class RestPath {
         }
 
         methodMap = new HashMap<String, String>();
-        if (methods == null) {
+        if (isClassLevel) {
             buildMethodMap(controllerClass);
         } else {
             buildMethodMap(methods);

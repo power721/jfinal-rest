@@ -138,8 +138,8 @@ public class MessageController extends Controller {
         setAttr("error", 0);
     }
 
-    @API(":messageId")
-    // equals @API("/tickets/:ticketId/messages/:messageId")
+    @API(":messageId/status")
+    // equals @API("/tickets/:ticketId/messages/:messageId/status")
     public void status() {
         // GET /v1/tickets/1/messages/5/status
         String ticketId = getAttr("ticketId");  // 1
@@ -148,7 +148,7 @@ public class MessageController extends Controller {
         setAttr("status", true);
     }
 
-    @API(":messageId")
+    @API(":messageId/status")
     @POST
     public void createStatus() {
         setAttr("created", true);

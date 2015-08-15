@@ -164,7 +164,7 @@ public class RestHandlerTest {
 
     @Test
     public void testApiPathInMethod() {
-        final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/status";
+        final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/status/status";
         Handler nextHandler = new Handler() {
             @Override
             public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
@@ -186,7 +186,7 @@ public class RestHandlerTest {
         request = PowerMock.createNicePartialMock(HttpServletRequest.class, "getMethod");
         EasyMock.expect(request.getMethod()).andReturn("POST");
 
-        final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/createStatus";
+        final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/status/createStatus";
         Handler nextHandler = new Handler() {
             @Override
             public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
