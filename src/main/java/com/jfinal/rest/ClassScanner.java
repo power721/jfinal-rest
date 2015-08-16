@@ -15,6 +15,9 @@
  */
 package com.jfinal.rest;
 
+import org.apache.logging.log4j.LogManager;
+import org.apache.logging.log4j.Logger;
+
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -25,6 +28,8 @@ import java.util.List;
  * Created by peak on 2015/1/27.
  */
 final class ClassScanner {
+
+    private static final Logger LOGGER = LogManager.getLogger(ClassScanner.class);
 
     private static final ClassLoader CLASS_LOADER;
     private static final String CLASS_PATH;
@@ -43,18 +48,22 @@ final class ClassScanner {
      * @param packages 包名
      * @return list of restful classes
      */
-    public static List<Class<?>> scan(String... packages) {
+    public static List<Class<?>> scan(String classPath, String... packages) {
         List<Class<?>> result = new ArrayList<Class<?>>();
+        if (classPath == null) {
+            classPath = CLASS_PATH;
+        }
 
         for (String pack : packages) {
-            String path = CLASS_PATH + pack.replace(".", "/");
+            String path = classPath + pack.replace(".", "/");
             File dir = new File(path);
             if (!dir.isDirectory()) {
+                LOGGER.debug("file {} is not directory", dir);
                 return Collections.emptyList();
             }
 
             try {
-                result.addAll(scan(dir));
+                result.addAll(scan(classPath, dir));
             } catch (ClassNotFoundException e) {
                 throw new RuntimeException(e);
             }
@@ -63,22 +72,25 @@ final class ClassScanner {
         return result;
     }
 
-    private static List<Class<?>> scan(File dir) throws ClassNotFoundException {
+    private static List<Class<?>> scan(String classPath, File dir) throws ClassNotFoundException {
+        LOGGER.debug("scan directory {}", dir);
         List<Class<?>> list = new ArrayList<Class<?>>();
         File[] files = dir.listFiles();
         if (files == null) {
+            LOGGER.debug("cannot find any file in the directory", dir);
             return list;
         }
 
         for (File file : files) {
             if (file.isFile()) {
+                LOGGER.debug("file {}", file);
                 String filePath = file.getAbsolutePath();
                 if (!filePath.endsWith(".class")) {
                     continue;
                 }
 
                 //去掉classPath
-                String className = filePath.substring(CLASS_PATH.length());
+                String className = filePath.substring(classPath.length());
                 if (className.startsWith(File.separator)) {
                     className = className.substring(1);
                 }
@@ -88,7 +100,7 @@ final class ClassScanner {
                 className = className.replace(File.separator, ".");
                 list.add(CLASS_LOADER.loadClass(className));
             } else if (file.isDirectory()) {
-                list.addAll(scan(file));
+                list.addAll(scan(classPath, file));
             }
         }
         return list;
