@@ -7,7 +7,7 @@ import java.util.Arrays;
 
 
 @API("/tickets/:ticketId/messages")
-public class MockController extends RestController {
+public class MockController extends Controller {
 
     @GET
     public void index() {

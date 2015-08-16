@@ -35,12 +35,6 @@
             <version>2.0</version>
         </dependency>
 
-        <dependency>
-            <groupId>com.google.code.gson</groupId>
-            <artifactId>gson</artifactId>
-            <version>2.3.1</version>
-        </dependency>
-
         <!-- Logging API + implementation: -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
