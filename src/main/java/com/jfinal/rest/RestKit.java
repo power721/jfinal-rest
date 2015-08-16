@@ -43,6 +43,7 @@ public final class RestKit {
      * 创建路由
      *
      * @param basePath 访问路径，如/v1，/v2
+     * @param classPath the class path to find the packages
      * @param routes   路由，jFinal自带的路由
      * @param packages 包名，将会扫描该下带有@Api注解的controller
      */
@@ -71,6 +72,13 @@ public final class RestKit {
         ROUTES.add(restRoutes);
     }
 
+    /**
+     * 创建路由
+     *
+     * @param basePath 访问路径，如/v1，/v2
+     * @param routes   路由，jFinal自带的路由
+     * @param packages 包名，将会扫描该下带有@Api注解的controller
+     */
     public static void buildRoutes(String basePath, Routes routes, String... packages) {
         buildRoutes(basePath, null, routes, packages);
     }
