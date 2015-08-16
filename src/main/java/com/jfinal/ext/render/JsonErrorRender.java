@@ -38,11 +38,19 @@ public class JsonErrorRender extends JsonRender {
 
     private final int errorCode;
 
+    /**
+     * construct the error render by the error code
+     *
+     * @param errorCode the error code
+     */
     public JsonErrorRender(int errorCode) {
         super();
         this.errorCode = errorCode;
     }
 
+    /**
+     * render the HTTP response
+     */
     @Override
     public void render() {
         request.setAttribute("error", ERROR_CODES.get(errorCode));

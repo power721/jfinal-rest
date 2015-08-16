@@ -58,10 +58,10 @@ class RestPath {
 
         methodMap = new HashMap<String, String>();
         if (isClassLevel) {
-            buildMethodMap(controllerClass);
-        } else {
-            buildMethodMap(methods);
+            methods = getClassLevelAPIMethod(controllerClass);
         }
+
+        buildRequestMethodMap(controllerClass, methods);
     }
 
     RestPath(String originPath) {
@@ -158,21 +158,12 @@ class RestPath {
         return hash;
     }
 
-    private void buildMethodMap(Class<? extends Controller> controllerClass) {
+    private void buildRequestMethodMap(Class<? extends Controller> controllerClass, List<Method> methods) {
         if (controllerClass == null) {
             return;
         }
 
-        for (Method method : controllerClass.getDeclaredMethods()) {
-            if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
-                continue;
-            }
-
-            API api = method.getAnnotation(API.class);
-            if (api != null) {
-                continue;
-            }
-
+        for (Method method : methods) {
             // index is the default method in the jFinal controller
             String methodName = "index".equals(method.getName()) ? "" : method.getName();
 
@@ -213,46 +204,38 @@ class RestPath {
                 if (methodMap.put("delete", methodName) != null) {
                     throw new RuntimeException("Duplicate DELETE request method in " + controllerClass.getName());
                 }
+                continue;
             }
-        }
-    }
 
-    private void buildMethodMap(List<Method> methods) {
-        for (Method method : methods) {
-            String methodName = "index".equals(method.getName()) ? "" : method.getName();
-            GET get = method.getAnnotation(GET.class);
-            if (get != null) {
+            if (!isClassLevel && methodMap.get("get") == null) {
                 methodMap.put("get", methodName);
-                continue;
             }
-
-            PUT put = method.getAnnotation(PUT.class);
-            if (put != null) {
-                methodMap.put("put", methodName);
-                continue;
-            }
-
-            POST post = method.getAnnotation(POST.class);
-            if (post != null) {
-                methodMap.put("post", methodName);
-                continue;
-            }
-
-            PATCH patch = method.getAnnotation(PATCH.class);
-            if (patch != null) {
-                methodMap.put("patch", methodName);
-                continue;
-            }
-
-            DELETE delete = method.getAnnotation(DELETE.class);
-            if (delete != null) {
-                methodMap.put("delete", methodName);
-                continue;
-            }
-
-            methodMap.put("get", methodName);
         }
     }
+
+    private List<Method> getClassLevelAPIMethod(Class<? extends Controller> controllerClass) {
+        List<Method> methods = new ArrayList<Method>();
+
+        if (controllerClass == null) {
+            return methods;
+        }
+
+        for (Method method : controllerClass.getDeclaredMethods()) {
+            if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
+                continue;
+            }
+
+            API api = method.getAnnotation(API.class);
+            if (isClassLevel && api != null) {
+                continue;
+            }
+
+            methods.add(method);
+        }
+
+        return methods;
+    }
+
 
     private static class Segment {
         boolean isVariable;
