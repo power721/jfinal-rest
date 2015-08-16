@@ -18,8 +18,6 @@ package com.jfinal.rest;
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Routes;
 import com.jfinal.core.Controller;
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -35,7 +33,6 @@ import java.util.Map;
  */
 public final class RestKit {
 
-    private static final Logger LOGGER = LogManager.getLogger(RestKit.class);
 
     private static final List<RestRoutes> ROUTES = new ArrayList<RestRoutes>();
 
@@ -50,11 +47,9 @@ public final class RestKit {
      * @param packages 包名，将会扫描该下带有@Api注解的controller
      */
     public static void buildRoutes(String basePath, String classPath, Routes routes, String... packages) {
-        LOGGER.trace("buildRoutes {} {}", basePath, packages);
         RestRoutes restRoutes = new RestRoutes(basePath, routes);
         //扫描包下的controller
         List<Class<?>> list = ClassScanner.scan(classPath, packages);
-        LOGGER.trace("classes {}", list);
         for (Class<?> clazz : list) {
             if (!Controller.class.isAssignableFrom(clazz)) {
                 continue;
@@ -62,7 +57,6 @@ public final class RestKit {
 
             @SuppressWarnings("unchecked")
             Class<? extends Controller> controllerClass = (Class<? extends Controller>) clazz;
-            LOGGER.debug("buildRoutes in class {}", controllerClass.getName());
             API api = clazz.getAnnotation(API.class);
             String classRestPath = "";
             if (api != null) {
@@ -72,7 +66,6 @@ public final class RestKit {
 
             for (Map.Entry<String, List<Method>> entry : buildMethodLevelAPIs(classRestPath, clazz).entrySet()) {
                 restRoutes.addRoute(entry.getKey(), controllerClass, entry.getValue());
-                LOGGER.debug("addRoute: {} -> {} methods: {}", entry.getKey(), controllerClass, entry.getValue());
             }
         }
         ROUTES.add(restRoutes);

@@ -15,8 +15,6 @@
  */
 package com.jfinal.rest;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
 
 import java.io.File;
 import java.util.ArrayList;
@@ -28,9 +26,6 @@ import java.util.List;
  * Created by peak on 2015/1/27.
  */
 final class ClassScanner {
-
-    private static final Logger LOGGER = LogManager.getLogger(ClassScanner.class);
-
     private static final ClassLoader CLASS_LOADER;
     private static final String CLASS_PATH;
 
@@ -58,7 +53,6 @@ final class ClassScanner {
             String path = classPath + pack.replace(".", "/");
             File dir = new File(path);
             if (!dir.isDirectory()) {
-                LOGGER.debug("file {} is not directory", dir);
                 return Collections.emptyList();
             }
 
@@ -73,17 +67,14 @@ final class ClassScanner {
     }
 
     private static List<Class<?>> scan(String classPath, File dir) throws ClassNotFoundException {
-        LOGGER.debug("scan directory {}", dir);
         List<Class<?>> list = new ArrayList<Class<?>>();
         File[] files = dir.listFiles();
         if (files == null) {
-            LOGGER.debug("cannot find any file in the directory", dir);
             return list;
         }
 
         for (File file : files) {
             if (file.isFile()) {
-                LOGGER.debug("file {}", file);
                 String filePath = file.getAbsolutePath();
                 if (!filePath.endsWith(".class")) {
                     continue;

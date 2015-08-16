@@ -2,15 +2,12 @@ package com.jfinal.rest;
 
 import com.jfinal.config.Handlers;
 import com.jfinal.config.Routes;
-import com.jfinal.core.Controller;
 import org.easymock.EasyMock;
 import org.junit.Before;
 import org.junit.Test;
 import org.powermock.api.easymock.PowerMock;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.ArrayList;
-import java.util.Map;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
