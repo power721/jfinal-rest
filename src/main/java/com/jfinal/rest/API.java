@@ -22,7 +22,7 @@ import java.lang.annotation.RetentionPolicy;
 import java.lang.annotation.Target;
 
 /**
- * 放在controller上，配置restful请求路径
+ * <p>放在controller上，配置restful请求路径</p>
  * Created by peak on 2015/2/9.
  */
 @Retention(RetentionPolicy.RUNTIME)

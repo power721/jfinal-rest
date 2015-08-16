@@ -20,6 +20,9 @@ import com.jfinal.render.JsonRender;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Render error to json response.
+ */
 public class JsonErrorRender extends JsonRender {
 
     private static final Map<Integer, String> ERROR_CODES = new HashMap<Integer, String>();

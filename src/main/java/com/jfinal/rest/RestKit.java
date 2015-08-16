@@ -27,9 +27,9 @@ import java.util.List;
 import java.util.Map;
 
 /**
- * restful请求工具类，两个功能：创建路由和Handler
- * Created by peak on 2015/1/30.
- * refactored by power721
+ * <p>restful请求工具类，两个功能：创建路由和Handler</p>
+ * <p>Created by peak on 2015/1/30.</p>
+ * Refactored by power721
  */
 public final class RestKit {
 
