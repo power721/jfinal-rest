@@ -4,6 +4,8 @@ import com.jfinal.ext.test.RestControllerTestCase;
 import org.junit.Test;
 import org.power.demo.core.AppConfig;
 
+import static org.junit.Assert.assertEquals;
+
 public class MessageControllerTest extends RestControllerTestCase<AppConfig> {
 
     @Test
@@ -52,14 +54,14 @@ public class MessageControllerTest extends RestControllerTestCase<AppConfig> {
     public void test404() {
         String url = "/tickets/2/messages/?q=1";
         String response = use(url).invoke();
-        System.out.println(response);
+        assertEquals("{\"error\":\"Not Found\"}", response);
     }
 
     @Test
     public void testRest404() {
-        String url = "/v0/tickets/messages/?q=2";
+        String url = "/v0/ticket/?q=2";
         String response = use(url).invoke();
-        System.out.println(response);
+        assertEquals("{\"error\":\"Not Found\"}", response);
     }
 
     @Test

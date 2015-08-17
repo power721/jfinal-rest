@@ -21,6 +21,10 @@ public class AppConfig extends JFinalConfig {
 
     private static final Logger LOGGER = LogManager.getLogger(AppConfig.class);
 
+    public static void main(String[] args) {
+        JFinal.start("src/main/webapp", 8080, "/", 5);
+    }
+
     @Override
     public void configConstant(Constants me) {
         LOGGER.trace("configConstant");
@@ -68,10 +72,6 @@ public class AppConfig extends JFinalConfig {
     public void configHandler(Handlers me) {
         LOGGER.trace("configHandler");
         RestKit.buildHandler(me);
-    }
-
-    public static void main(String[] args) {
-        JFinal.start("src/main/webapp", 8080, "/", 5);
     }
 
 }

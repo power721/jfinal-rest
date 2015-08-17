@@ -13,7 +13,7 @@ public class TicketController extends RestController {
 
     private static final Map<Integer, Ticket> tickets = new HashMap<>();
 
-    static  {
+    static {
         Ticket ticket = new Ticket();
         ticket.setAuthor("power");
         ticket.setTitle("jFinal-rest dev");
@@ -29,6 +29,12 @@ public class TicketController extends RestController {
         ticket = new Ticket();
         ticket.setAuthor("jfinal");
         ticket.setTitle("jFinal 2.0 publish");
+        ticket.save();
+        tickets.put(ticket.getId(), ticket);
+
+        ticket = new Ticket();
+        ticket.setAuthor("jfinal-rest");
+        ticket.setTitle("jFinal rest demo");
         ticket.save();
         tickets.put(ticket.getId(), ticket);
     }
@@ -53,16 +59,30 @@ public class TicketController extends RestController {
         tickets.put(ticket.getId(), ticket);
 
         setAttr("error", 0);
-        setAttr("ticketId", ticket.getId());
+        setAttr("ticket", ticket);
         setAttr("created", true);
     }
 
     public void patch() {
-        // curl -X PATCH http://localhost:8080/v0/tickets/1
-        String ticketId = getPara();
-        setAttr("error", 0);
+        // curl -H "Content-Type: application/json" -X PATCH -d '{"title":"test"}' http://localhost:8080/v0/tickets/1
+        Ticket newTicket = getJsonData(Ticket.class);
+        int ticketId;
+        if (!StrKit.isBlank(getPara())) {
+            ticketId = getParaToInt();
+        } else {
+            ticketId = newTicket.getId();
+        }
+
+        Ticket ticket = tickets.get(ticketId);
         setAttr("ticketId", ticketId);
-        setAttr("updated", false);
+        if (ticket != null) {
+            ticket.patch(newTicket);
+            setAttr("error", 0);
+            setAttr("ticket", ticket);
+            setAttr("updated", true);
+        } else {
+            setAttr("error", "cannot find ticket");
+        }
     }
 
     public void put() {

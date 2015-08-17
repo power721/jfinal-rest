@@ -46,7 +46,7 @@ public class RestKitTest {
 
         RestKit.buildHandler(handlers);
 
-        assertEquals(1, handlers.getHandlerList().size());
+        assertEquals(2, handlers.getHandlerList().size());
         assertTrue(handlers.getHandlerList().get(0) instanceof RestHandler);
     }
 

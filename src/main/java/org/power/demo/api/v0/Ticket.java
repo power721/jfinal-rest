@@ -21,6 +21,16 @@ public class Ticket {
         setTitle(ticket.getTitle());
     }
 
+    public void patch(Ticket ticket) {
+        if (ticket.getAuthor() != null) {
+            setAuthor(ticket.getAuthor());
+        }
+
+        if (ticket.getTitle() != null) {
+            setTitle(ticket.getTitle());
+        }
+    }
+
     public String getTitle() {
         return title;
     }

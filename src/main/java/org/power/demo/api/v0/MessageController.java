@@ -22,7 +22,7 @@ public class MessageController extends RestController {
 
     private static final Map<Integer, Message> messages = new HashMap<>();
 
-    static  {
+    static {
         Message message = new Message();
         message.setAuthor("power");
         message.setText("jFinal-rest");
