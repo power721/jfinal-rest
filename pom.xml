@@ -3,19 +3,18 @@
     <modelVersion>4.0.0</modelVersion>
 
     <groupId>com.jfinal</groupId>
-    <artifactId>jfinal-rest</artifactId>
+    <artifactId>jfinal-rest-demo</artifactId>
     <version>1.0</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
-    <name>jfinal-rest</name>
+    <name>jfinal-rest-demo</name>
     <url>http://maven.apache.org</url>
 
+    <issueManagement>
+        <system>Git@OSC Issue</system>
+        <url>https://git.oschina.net/power/jfinal-rest/issues</url>
+    </issueManagement>
     <developers>
-        <developer>
-            <id>peak</id>
-            <name>台俊峰</name>
-            <email>taijunfeng_it@sina.com</email>
-        </developer>
         <developer>
             <id>power</id>
             <name>Harold</name>
@@ -25,7 +24,9 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+        <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <powermock.version>1.6.2</powermock.version>
+        <jetty.version>8.1.15.v20140411</jetty.version>
     </properties>
 
     <dependencies>
@@ -35,16 +36,61 @@
             <version>2.0</version>
         </dependency>
         <dependency>
+            <groupId>com.jfinal</groupId>
+            <artifactId>jfinal-ext</artifactId>
+            <version>3.1.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.jfinal</groupId>
+                    <artifactId>jfinal</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.3.1</version>
+        </dependency>
+
+        <!-- Logging API + implementation: -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>2.3</version>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>2.3</version>
+        </dependency>
+
+        <dependency>
             <groupId>javax.servlet</groupId>
             <artifactId>javax.servlet-api</artifactId>
             <version>3.1.0</version>
             <scope>provided</scope>
         </dependency>
+
+        <!-- Jetty server for dev: -->
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-server</artifactId>
+            <version>${jetty.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.eclipse.jetty</groupId>
+            <artifactId>jetty-webapp</artifactId>
+            <version>${jetty.version}</version>
+            <scope>runtime</scope>
+        </dependency>
+
+        <!-- unit test support: -->
         <dependency>
             <groupId>junit</groupId>
             <artifactId>junit</artifactId>
             <version>4.12</version>
-            <scope>test</scope>
         </dependency>
         <dependency>
             <groupId>org.easymock</groupId>
@@ -82,6 +128,14 @@
                 <artifactId>maven-resources-plugin</artifactId>
                 <configuration>
                     <encoding>UTF-8</encoding>
+                </configuration>
+            </plugin>
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>2.2</version>
+                <configuration>
+                    <packagingExcludes>WEB-INF/lib/jetty*.jar</packagingExcludes>
                 </configuration>
             </plugin>
         </plugins>
