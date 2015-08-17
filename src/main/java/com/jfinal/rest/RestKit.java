@@ -33,7 +33,6 @@ import java.util.Map;
  */
 public final class RestKit {
 
-
     private static final List<RestRoutes> ROUTES = new ArrayList<RestRoutes>();
 
     private RestKit() {

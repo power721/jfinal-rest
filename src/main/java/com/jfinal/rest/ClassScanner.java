@@ -26,12 +26,13 @@ import java.util.List;
  * Created by peak on 2015/1/27.
  */
 final class ClassScanner {
+
     private static final ClassLoader CLASS_LOADER;
     private static final String CLASS_PATH;
 
     static {
         CLASS_LOADER = ClassScanner.class.getClassLoader();
-        CLASS_PATH = CLASS_LOADER.getResource("").getPath();
+        CLASS_PATH = ClassScanner.class.getResource("/").getPath();
     }
 
     private ClassScanner() {

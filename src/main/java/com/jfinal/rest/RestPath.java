@@ -31,6 +31,7 @@ import java.util.Map;
  * refactored by power721
  */
 class RestPath {
+
     private final boolean isClassLevel;
     private final String originPath;
     private final Map<String, String> methodMap;
