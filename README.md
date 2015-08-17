@@ -1,6 +1,8 @@
 #jfinal-rest
 jfinal-rest是jfinal的轻量级RESTful扩展，使用非常方便，看了DEMO就可以用了。
 
+Demo project: https://git.oschina.net/power/jfinal-rest/tree/demo/
+
 2015-8-15: add annotations to indicates that the annotated method responds to requests by HTTP method type. power721
 
 2015-8-15: support API annotation in method level. power721
