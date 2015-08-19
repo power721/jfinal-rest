@@ -17,6 +17,7 @@ package com.jfinal.ext.render;
 
 import com.jfinal.render.JsonRender;
 
+import javax.servlet.http.HttpServletResponse;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -28,15 +29,14 @@ public class JsonErrorRender extends JsonRender {
     private static final Map<Integer, String> ERROR_CODES = new HashMap<Integer, String>();
 
     static {
-        ERROR_CODES.put(400, "Bad Request");
-        ERROR_CODES.put(401, "Unauthorized");
-        ERROR_CODES.put(403, "Forbidden");
-        ERROR_CODES.put(404, "Not Found");
-        ERROR_CODES.put(406, "Not Acceptable");
-        ERROR_CODES.put(410, "Gone");
-        ERROR_CODES.put(429, "Too Many Requests");
-        ERROR_CODES.put(500, "Internal Server Error");
-        ERROR_CODES.put(503, "Service Unavailable");
+        ERROR_CODES.put(HttpServletResponse.SC_BAD_REQUEST, "Bad Request");
+        ERROR_CODES.put(HttpServletResponse.SC_UNAUTHORIZED, "Unauthorized");
+        ERROR_CODES.put(HttpServletResponse.SC_FORBIDDEN, "Forbidden");
+        ERROR_CODES.put(HttpServletResponse.SC_NOT_FOUND, "Not Found");
+        ERROR_CODES.put(HttpServletResponse.SC_NOT_ACCEPTABLE, "Not Acceptable");
+        ERROR_CODES.put(HttpServletResponse.SC_GONE, "Gone");
+        ERROR_CODES.put(HttpServletResponse.SC_INTERNAL_SERVER_ERROR, "Internal Server Error");
+        ERROR_CODES.put(HttpServletResponse.SC_SERVICE_UNAVAILABLE, "Service Unavailable");
     }
 
     private final int errorCode;
