@@ -120,7 +120,7 @@ class RestPath {
             newPath = originPath + "/" + method;
         }
 
-        if (para != null && isClassLevel) {
+        if (para != null) {
             return newPath + "/" + para;
         } else {
             return newPath;
