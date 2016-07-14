@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Peak Tai,台俊峰(taijunfeng_it@sina.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -33,7 +33,7 @@ import java.util.Map;
  */
 public final class RestKit {
 
-    private static final List<RestRoutes> ROUTES = new ArrayList<RestRoutes>();
+    private static final List<RestRoutes> ROUTES = new ArrayList<>();
 
     private RestKit() {
     }
@@ -41,10 +41,10 @@ public final class RestKit {
     /**
      * 创建路由
      *
-     * @param basePath 访问路径，如/v1，/v2
+     * @param basePath  访问路径，如/v1，/v2
      * @param classPath the class path to find the packages
-     * @param routes   路由，jFinal自带的路由
-     * @param packages 包名，将会扫描该下带有@Api注解的controller
+     * @param routes    路由，jFinal自带的路由
+     * @param packages  包名，将会扫描该下带有@Api注解的controller
      */
     public static void buildRoutes(String basePath, String classPath, Routes routes, String... packages) {
         RestRoutes restRoutes = new RestRoutes(basePath, routes);
@@ -55,8 +55,8 @@ public final class RestKit {
                 continue;
             }
 
-            @SuppressWarnings("unchecked")
-            Class<? extends Controller> controllerClass = (Class<? extends Controller>) clazz;
+            @SuppressWarnings("unchecked") Class<? extends Controller> controllerClass =
+                (Class<? extends Controller>) clazz;
             API api = clazz.getAnnotation(API.class);
             String classRestPath = "";
             if (api != null) {
@@ -83,7 +83,7 @@ public final class RestKit {
     }
 
     private static Map<String, List<Method>> buildMethodLevelAPIs(String classRestPath, Class<?> clazz) {
-        Map<String, List<Method>> methodMap = new HashMap<String, List<Method>>();
+        Map<String, List<Method>> methodMap = new HashMap<>();
         for (Method method : clazz.getDeclaredMethods()) {
             if (method.getParameterTypes().length != 0 || !Modifier.isPublic(method.getModifiers())) {
                 continue;
@@ -98,7 +98,7 @@ public final class RestKit {
 
                 List<Method> methods = methodMap.get(restPath);
                 if (methods == null) {
-                    methods = new ArrayList<Method>();
+                    methods = new ArrayList<>();
                     methodMap.put(restPath, methods);
                 }
                 methods.add(method);

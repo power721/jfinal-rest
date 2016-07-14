@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 power721 (power0721@gmail.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -26,7 +26,7 @@ import java.util.Map;
  */
 public class JsonErrorRender extends JsonRender {
 
-    private static final Map<Integer, String> ERROR_CODES = new HashMap<Integer, String>();
+    private static final Map<Integer, String> ERROR_CODES = new HashMap<>();
 
     static {
         ERROR_CODES.put(HttpServletResponse.SC_BAD_REQUEST, "Bad Request");
@@ -57,8 +57,8 @@ public class JsonErrorRender extends JsonRender {
     @Override
     public void render() {
         String error = ERROR_CODES.get(errorCode);
-        request.setAttribute("error", error != null ? error :
-                "Internal Server Error(invalid error code" + errorCode + ")");
+        request.setAttribute("error",
+            error != null ? error : "Internal Server Error(invalid error code" + errorCode + ")");
         response.setStatus(errorCode);
         super.render();
     }

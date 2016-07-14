@@ -60,16 +60,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -82,16 +83,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages/create";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -104,16 +106,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages/update";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -126,16 +129,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages/patch";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -148,16 +152,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages/remove";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -167,16 +172,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/status/status";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/2/status", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/2/status", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -189,16 +195,17 @@ public class RestHandlerTest {
         final String newTarget = "/v1/tickets/:ticketId/messages/:messageId/status/createStatus";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle("/v1/tickets/1/messages/2/status", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/1/messages/2/status", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -208,16 +215,17 @@ public class RestHandlerTest {
         final String newTarget = "/v2/tickets/1/messages/";
         Handler nextHandler = new Handler() {
             @Override
-            public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
+            public void handle(String target, HttpServletRequest request, HttpServletResponse response,
+                boolean[] isHandled) {
                 assertEquals(newTarget, target);
             }
         };
 
         PowerMock.replayAll();
 
-        Whitebox.setInternalState(restHandler, Handler.class, nextHandler);
+        Whitebox.setInternalState(restHandler, "next", nextHandler);
 
-        restHandler.handle(newTarget, request, response, new boolean[]{false});
+        restHandler.handle(newTarget, request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }
@@ -236,7 +244,7 @@ public class RestHandlerTest {
 
         PowerMock.replayAll();
 
-        restHandler.handle("/v1/tickets/messages/", request, response, new boolean[]{false});
+        restHandler.handle("/v1/tickets/messages/", request, response, new boolean[] {false});
 
         PowerMock.verifyAll();
     }

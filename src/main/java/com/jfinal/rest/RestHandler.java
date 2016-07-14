@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Peak Tai,台俊峰(taijunfeng_it@sina.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -16,7 +16,7 @@
 package com.jfinal.rest;
 
 import com.jfinal.handler.Handler;
-import com.jfinal.log.Logger;
+import com.jfinal.log.Log;
 import com.jfinal.render.RenderFactory;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,14 +28,12 @@ import javax.servlet.http.HttpServletResponse;
  */
 class RestHandler extends Handler {
 
-    private static final Logger LOGGER = Logger.getLogger(RestHandler.class);
+    private static final Log LOGGER = Log.getLog(RestHandler.class);
 
     /**
      * 访问路径
      */
     private final RestRoutes routes;
-
-//    private String viewPostfix;
 
     /**
      * construct RestHandler with the RestRoutes
@@ -46,19 +44,11 @@ class RestHandler extends Handler {
         this.routes = routes;
     }
 
-//    public RestHandler(RestRoutes routes, String viewPostfix) {
-//        if (StrKit.isBlank(viewPostfix) || !viewPostfix.contains(".")) {
-//            throw new IllegalArgumentException("invalid view postfix.");
-//        }
-//        this.routes = routes;
-//        this.viewPostfix = viewPostfix;
-//    }
-
     @Override
     public void handle(String target, HttpServletRequest request, HttpServletResponse response, boolean[] isHandled) {
         String basePath = routes.getBasePath();
         if (!target.startsWith(basePath)) {
-            nextHandler.handle(target, request, response, isHandled);
+            next.handle(target, request, response, isHandled);
             return;
         }
 
@@ -74,10 +64,7 @@ class RestHandler extends Handler {
         }
 
         isHandled[0] = true;
-//        if (viewPostfix != null) {
-//            newTarget = newTarget.replace(viewPostfix, "");
-//        }
-        nextHandler.handle(newTarget, request, response, isHandled);
+        next.handle(newTarget, request, response, isHandled);
     }
 
 }

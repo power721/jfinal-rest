@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Peak Tai,台俊峰(taijunfeng_it@sina.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,7 +45,7 @@ final class ClassScanner {
      * @return list of restful classes
      */
     public static List<Class<?>> scan(String classPath, String... packages) {
-        List<Class<?>> result = new ArrayList<Class<?>>();
+        List<Class<?>> result = new ArrayList<>();
         if (classPath == null) {
             classPath = CLASS_PATH;
         }
@@ -68,7 +68,7 @@ final class ClassScanner {
     }
 
     private static List<Class<?>> scan(String classPath, File dir) throws ClassNotFoundException {
-        List<Class<?>> list = new ArrayList<Class<?>>();
+        List<Class<?>> list = new ArrayList<>();
         File[] files = dir.listFiles();
         if (files == null) {
             return list;

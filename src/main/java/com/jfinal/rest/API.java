@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Peak Tai,台俊峰(taijunfeng_it@sina.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");

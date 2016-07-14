@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Peak Tai,台俊峰(taijunfeng_it@sina.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -45,7 +45,7 @@ class RestPath {
         }
 
         String[] arr = originPath.split("/");
-        segments = new ArrayList<Segment>();
+        segments = new ArrayList<>();
         for (String str : arr) {
             Segment segment = new Segment();
             if (str.startsWith(":")) {
@@ -57,7 +57,7 @@ class RestPath {
             segments.add(segment);
         }
 
-        methodMap = new HashMap<String, String>();
+        methodMap = new HashMap<>();
         if (isClassLevel) {
             methods = getClassLevelAPIMethod(controllerClass);
         }
@@ -92,7 +92,7 @@ class RestPath {
         }
 
         //逐个部分进行比较
-        Map<String, String> paras = new HashMap<String, String>();
+        Map<String, String> paras = new HashMap<>();
         for (int i = 0; i < segments.size(); i++) {
             String str = arr[i];
             Segment segment = segments.get(i);
@@ -215,7 +215,7 @@ class RestPath {
     }
 
     private List<Method> getClassLevelAPIMethod(Class<? extends Controller> controllerClass) {
-        List<Method> methods = new ArrayList<Method>();
+        List<Method> methods = new ArrayList<>();
 
         if (controllerClass == null) {
             return methods;

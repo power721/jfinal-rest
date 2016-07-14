@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2015 Peak Tai,台俊峰(taijunfeng_it@sina.com)
  * <p/>
  * Licensed under the Apache License, Version 2.0 (the "License");
@@ -32,7 +32,7 @@ class RestRoutes {
 
     private final String basePath;
     private final Routes routes;
-    private final Set<RestPath> restPathSet = new HashSet<RestPath>();
+    private final Set<RestPath> restPathSet = new HashSet<>();
 
     RestRoutes(String basePath, Routes routes) {
         if (!basePath.startsWith("/")) {
